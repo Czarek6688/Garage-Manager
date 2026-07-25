@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Garage Manager</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <header>
+          <h1>Garage manager</h1>
+          <p>
+            Garage manager to aplikacja w której możemy wpisywać swoje albo
+            nasze ulubione samochody. W naszej aplikacji można wpisywać marke,
+            model, rok, przebieg oraz cenę a potem w szczegółach koszty naprawy,
+            co było naprawiane oraz kiedy.
+          </p>
+        </header>
+
+        <form action="">
+          <h2>Dodaj samochód</h2>
+
+          <label for="brand">Marka</label>
+          <input type="text" id="brand" placeholder="volvo" />
+
+          <label for="model">Model</label>
+          <input type="text" id="model" placeholder="S60" />
+
+          <label for="year">Rok</label>
+          <input
+            type="number"
+            id="year"
+            placeholder="2013"
+            min="1990"
+            max="2026"
+          />
+
+          <label for="mileage">Przebieg</label>
+          <input type="number" id="mileage" placeholder="183000km" min="1" />
+
+          <label for="price">Cena</label>
+          <input type="number" id="price" placeholder="30000zl" min="1" />
+
+          <button type="button" id="add-car">Dodaj samochód</button>
+        </form>
+        <form action="">
+          <section>
+            <h2>Znajdź swój samochód</h2>
+
+            <label for="search-car">Wyszukaj samochód</label>
+            <input type="search" id="search-car" placeholder="Volvo S60 2013" />
+
+            <label for="brand-filter">Filtruj po markach</label>
+            <select id="brand-filter">
+              <option value="all">Wszystkie marki</option>
+              <option value="Audi">Audi</option>
+              <option value="BMW">BMW</option>
+              <option value="Mercedes">Mercedes</option>
+              <option value="Volvo">Volvo</option>
+              <option value="Volkswagen">Volkswagen</option>
+            </select>
+
+            <label for="mileage-filter">Filtruj po przebiegach</label>
+            <select id="mileage-filter">
+              <option value="all">Każdy przebieg</option>
+              <option value="0-50000">Do 50000 km</option>
+              <option value="50001-100000">Od 50001 do 100000</option>
+              <option value="100001-150000">Od 100001 do 150000</option>
+              <option value="150001-200000">Od 150001 do 200000</option>
+              <option value="200001-plus">Od 200001 wzwyż</option>
+            </select>
+
+            <button type="reset" id="reset-filter">Wyczyść filtry</button>
+          </section>
+        </form>
+
+        <section class="car-list">
+          <h2>Lista samochodów</h2>
+          <ul></ul>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
