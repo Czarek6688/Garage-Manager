@@ -1,5 +1,5 @@
 body {
-  background-color: #f5f7fb;
+  background-color: #2563eb;
   font-family: "inter", sans-serif;
   margin: 0;
 }
@@ -33,7 +33,7 @@ header {
 }
 
 h1 {
-  color: #1f2937;
+  color: #ffffff;
   font-size: 56px;
   font-weight: 700;
   line-height: 1.2;
@@ -41,7 +41,7 @@ h1 {
 }
 
 p {
-  color: #6b7280;
+  color: #ffffff;
   font-size: 22px;
   font-weight: 400;
   margin-bottom: 50px;
@@ -89,6 +89,7 @@ select:focus {
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.18);
   cursor: pointer;
   transition: 0.25s;
+  margin-left: 20px;
 }
 
 #add-car:hover {
@@ -106,6 +107,7 @@ select:focus {
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.18);
   cursor: pointer;
   transition: 0.25s;
+  margin-left: 20px;
 }
 
 h2 {
@@ -122,4 +124,18 @@ label {
   max-width: 1750px;
   margin: 0 auto;
   padding: 40px;
+}
+
+.delete-button {
+  background-color: #ef4444;
+  color: white;
+  border: 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 18px 30px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.18);
+  cursor: pointer;
+  transition: 0.25s;
+  margin-left: 20px;
 }

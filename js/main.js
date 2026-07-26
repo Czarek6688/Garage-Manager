@@ -5,6 +5,7 @@ let year = document.getElementById("year");
 let mileage = document.getElementById("mileage");
 let price = document.getElementById("price");
 let carList = document.getElementById("car-list");
+let searchInput = document.getElementById("search-car");
 
 addCarButton.addEventListener("click", function () {
   if (
@@ -21,4 +22,23 @@ addCarButton.addEventListener("click", function () {
   newItem.textContent = `Marka: ${brand.value} | Model: ${model.value} | Rok: ${year.value} | Przebieg: ${mileage.value} | Cena: ${price.value}`;
   newItem.classList.add("new-li");
   carList.appendChild(newItem);
+  brand.value = "";
+  model.value = "";
+  year.value = "";
+  mileage.value = "";
+  price.value = "";
+  brand.focus();
+
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Usuń";
+  deleteButton.classList.add("delete-button");
+  newItem.appendChild(deleteButton);
+
+  deleteButton.addEventListener("click", function () {
+    deleteButton.parentElement.remove();
+  });
+});
+
+searchInput.addEventListener("input", function () {
+  console.log(searchInput.value);
 });
