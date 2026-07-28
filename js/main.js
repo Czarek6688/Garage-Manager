@@ -6,9 +6,49 @@ let mileage = document.getElementById("mileage");
 let price = document.getElementById("price");
 let carList = document.getElementById("car-list");
 let searchInput = document.getElementById("search-car");
+let brandFilter = document.getElementById("brand-filter");
+let mileageFilter = document.getElementById("mileage-filter");
+let resetFiltersButton = document.getElementById("reset-filters");
 
 const displayData = function () {
-  const cars = JSON.parse(localStorage.getItem("cars")) || [];
+  let cars = JSON.parse(localStorage.getItem("cars")) || [];
+
+  const currentBrand = brandFilter.value;
+  const currentMileage = mileageFilter.value;
+  if (currentBrand !== "all") {
+    cars = cars.filter(function (car) {
+      return car.brand === currentBrand;
+    });
+  }
+
+  if (currentMileage !== "all") {
+  cars = cars.filter(function (car) {
+    const carMileage = Number(car.mileage);
+
+    if (currentMileage === "0-50000") {
+      return carMileage <= 50000;
+    }
+
+    if (currentMileage === "50001-100000") {
+      return carMileage >= 50001 && carMileage <= 100000;
+    }
+
+    if (currentMileage === "100001-150000") {
+      return carMileage >= 100001 && carMileage <= 150000;
+    }
+
+    if (currentMileage === "150001-200000") {
+      return carMileage >= 150001 && carMileage <= 200000;
+    }
+
+    if (currentMileage === "200001-plus") {
+      return carMileage >= 200001;
+    }
+  });
+  
+}
+
+
 
   carList.innerHTML = "";
 
@@ -27,7 +67,7 @@ const displayData = function () {
     carList.appendChild(newItem);
 
     deleteButton.addEventListener("click", function () {
-      const cars = JSON.parse(localStorage.getItem("cars")) || [];
+      let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
       cars.splice(index, 1);
 
@@ -58,7 +98,7 @@ addCarButton.addEventListener("click", function () {
     price: price.value,
   };
 
-  const cars = JSON.parse(localStorage.getItem("cars")) || [];
+  let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
   cars.push(newCar);
 
@@ -89,6 +129,20 @@ searchInput.addEventListener("input", function () {
       car.style.display = "none";
     }
   });
+});
+
+brandFilter.addEventListener("change", function () {
+  displayData();
+});
+
+mileageFilter.addEventListener("change", function () {
+  displayData();
+});
+
+resetFiltersButton.addEventListener("click", function () {
+  brandFilter.value = "all";
+  mileageFilter.value = "all";
+  displayData();
 });
 
 displayData();
