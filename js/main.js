@@ -1,3 +1,4 @@
+let form = document.getElementById("car-form");
 let addCarButton = document.getElementById("add-car");
 let brand = document.getElementById("brand");
 let model = document.getElementById("model");
@@ -10,9 +11,33 @@ let brandFilter = document.getElementById("brand-filter");
 let mileageFilter = document.getElementById("mileage-filter");
 let resetFiltersButton = document.getElementById("reset-filters");
 let editedCarId = null;
+let amountCar = document.getElementById("amount-car");
+let averagePrice = document.getElementById("average-price");
+let mostExpensiveCar = document.getElementById("most-expensive-car");
+let cheapestCar = document.getElementById("cheapest-car");
+let averageMileage = document.getElementById("average-mileage");
+let carListSection = document.getElementById("car-list-section");
 
 const displayData = function () {
   let cars = JSON.parse(localStorage.getItem("cars")) || [];
+
+cars.length === 0 ? amountCar.textContent = "Brak samochodów w garażu" :
+amountCar.textContent = `Ilość samochodów na stanie: ${cars.length}`;
+
+let sumPrice = 0;
+
+cars.forEach(function (car) {
+  sumPrice += Number(car.price);
+});
+
+if (cars.length === 0) {
+  averagePrice.textContent = "Brak samochodów w garażu";
+} else {
+  const averagePriceValue = sumPrice / cars.length;
+
+  averagePrice.textContent = `Średnia cena wszystkich samochodów: ${averagePriceValue.toFixed()} zł`;
+}
+
 
   const currentBrand = brandFilter.value;
   const currentMileage = mileageFilter.value;
@@ -85,15 +110,22 @@ editButton.classList.add("edit-button");
  newItem.appendChild(editButton); 
  
  editButton.addEventListener("click", function(){ 
+
+addCarButton.textContent = "Zapisz zmiany!"
+
   brand.value = car.brand; 
   model.value = car.model; 
   year.value = car.year; 
   mileage.value = car.mileage; 
   price.value = car.price;
   editedCarId = car.id;
+
+  form.scrollIntoView({ behavior: "smooth"
 })
 });
-};
+});
+
+}
 
 addCarButton.addEventListener("click", function () {
   if (
@@ -128,9 +160,13 @@ const index = cars.findIndex(function (car) {
   if (index !== -1) {
     newCar.id = editedCarId;
     cars[index] = newCar;
+    carListSection.scrollIntoView({ behavior: "smooth" });
   
   }
+  addCarButton.textContent = "Dodaj samochód";
   editedCarId = null;
+
+
 }
 
   localStorage.setItem("cars", JSON.stringify(cars));
@@ -177,3 +213,4 @@ resetFiltersButton.addEventListener("click", function () {
 });
 
 displayData();
+

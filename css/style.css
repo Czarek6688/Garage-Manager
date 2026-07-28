@@ -28,6 +28,10 @@ section {
   margin-bottom: 30px;
 }
 
+.new-li {
+  margin-bottom: 15px;
+}
+
 header {
   text-align: center;
 }
