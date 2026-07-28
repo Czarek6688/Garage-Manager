@@ -9,6 +9,7 @@ let searchInput = document.getElementById("search-car");
 let brandFilter = document.getElementById("brand-filter");
 let mileageFilter = document.getElementById("mileage-filter");
 let resetFiltersButton = document.getElementById("reset-filters");
+let editedCarId = null;
 
 const displayData = function () {
   let cars = JSON.parse(localStorage.getItem("cars")) || [];
@@ -52,7 +53,7 @@ const displayData = function () {
 
   carList.innerHTML = "";
 
-  cars.forEach(function (car, index) {
+  cars.forEach(function (car) {
     const newItem = document.createElement("li");
 
     newItem.textContent = `Marka: ${car.brand} | Model: ${car.model} | Rok: ${car.year} | Przebieg: ${car.mileage} km | Cena: ${car.price} zł`;
@@ -67,15 +68,31 @@ const displayData = function () {
     carList.appendChild(newItem);
 
     deleteButton.addEventListener("click", function () {
-      let cars = JSON.parse(localStorage.getItem("cars")) || [];
+  let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
-      cars.splice(index, 1);
-
-      localStorage.setItem("cars", JSON.stringify(cars));
-
-      displayData();
-    });
+  cars = cars.filter(function (savedCar) {
+    return savedCar.id !== car.id;
   });
+
+  localStorage.setItem("cars", JSON.stringify(cars));
+
+  displayData();
+});
+const editButton = document.createElement("button");
+editButton.textContent = "Edytuj"; 
+editButton.classList.add("edit-button");
+
+ newItem.appendChild(editButton); 
+ 
+ editButton.addEventListener("click", function(){ 
+  brand.value = car.brand; 
+  model.value = car.model; 
+  year.value = car.year; 
+  mileage.value = car.mileage; 
+  price.value = car.price;
+  editedCarId = car.id;
+})
+});
 };
 
 addCarButton.addEventListener("click", function () {
@@ -91,6 +108,7 @@ addCarButton.addEventListener("click", function () {
   }
 
   const newCar = {
+    id: Date.now(),
     brand: brand.value.trim(),
     model: model.value.trim(),
     year: year.value,
@@ -100,7 +118,20 @@ addCarButton.addEventListener("click", function () {
 
   let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
+const index = cars.findIndex(function (car) {
+  return car.id === editedCarId;
+});
+  
+  if (editedCarId === null) {
   cars.push(newCar);
+} else {
+  if (index !== -1) {
+    newCar.id = editedCarId;
+    cars[index] = newCar;
+  
+  }
+  editedCarId = null;
+}
 
   localStorage.setItem("cars", JSON.stringify(cars));
 

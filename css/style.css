@@ -139,3 +139,17 @@ label {
   transition: 0.25s;
   margin-left: 20px;
 }
+
+.edit-button {
+  background-color: #facc15;
+  color: white;
+  border: 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 18px 30px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.18);
+  cursor: pointer;
+  transition: 0.25s;
+  margin-left: 20px;
+}
