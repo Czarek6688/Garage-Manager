@@ -21,54 +21,53 @@ let carListSection = document.getElementById("car-list-section");
 const displayData = function () {
   let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
-cars.length === 0 ? amountCar.textContent = "Brak samochodów w garażu" :
-amountCar.textContent = `Ilość samochodów na stanie: ${cars.length}`;
+  cars.length === 0
+    ? (amountCar.textContent = "Brak samochodów w garażu")
+    : (amountCar.textContent = `Ilość samochodów na stanie: ${cars.length}`);
 
-let sumPrice = 0;
+  let sumPrice = 0;
 
-cars.forEach(function (car) {
-  sumPrice += Number(car.price);
-});
+  cars.forEach(function (car) {
+    sumPrice += Number(car.price);
+  });
 
-if (cars.length === 0) {
-  averagePrice.textContent = "Brak samochodów w garażu";
-} else {
-  const averagePriceValue = sumPrice / cars.length;
+  if (cars.length === 0) {
+    averagePrice.textContent = "Brak samochodów w garażu";
+  } else {
+    const averagePriceValue = sumPrice / cars.length;
 
-  averagePrice.textContent = `Średnia cena wszystkich samochodów: ${averagePriceValue.toFixed()} zł`;
-}
+    averagePrice.textContent = `Średnia cena wszystkich samochodów: ${averagePriceValue.toFixed()} zł`;
+  }
 
-let mostExpensive = cars[0]
-cars.forEach(function (car){
-if (Number(car.price) > Number(mostExpensive.price)){
+  let mostExpensive = cars[0];
+  cars.forEach(function (car) {
+    if (Number(car.price) > Number(mostExpensive.price)) {
+      mostExpensive = car;
+    }
+  });
+  mostExpensiveCar.textContent = `Najdroższy samochód: ${mostExpensive.price} zł`;
 
-mostExpensive = car
-}
-})
-mostExpensiveCar.textContent = `Najdroższy samochód: ${mostExpensive.price} zł`;
+  let cheapest = cars[0];
+  cars.forEach(function (car) {
+    if (Number(car.price) < Number(cheapest.price)) {
+      cheapest = car;
+    }
+  });
+  cheapestCar.textContent = `Najtańszy samochód: ${cheapest.price} zł`;
 
-let cheapest = cars[0]
-cars.forEach(function (car){
-if (Number(car.price) < Number(cheapest.price)){
+  let sumMileage = 0;
 
-cheapest = car
-}
-})
-cheapestCar.textContent = `Najtańszy samochód: ${cheapest.price} zł`;
+  cars.forEach(function (car) {
+    sumMileage += Number(car.mileage);
+  });
 
-let sumMileage = 0;
+  if (cars.length === 0) {
+    averageMileage.textContent = "Brak samochodów w garażu";
+  } else {
+    const averageMileageValue = sumMileage / cars.length;
 
-cars.forEach(function (car) {
-  sumMileage += Number(car.mileage);
-});
-
-if (cars.length === 0) {
-  averageMileage.textContent = "Brak samochodów w garażu";
-} else {
-  const averageMileageValue = sumMileage / cars.length;
-
-  averageMileage.textContent = `Średni przebieg wszystkich samochodów: ${averageMileageValue.toFixed()} km`;
-}
+    averageMileage.textContent = `Średni przebieg wszystkich samochodów: ${averageMileageValue.toFixed()} km`;
+  }
 
   const currentBrand = brandFilter.value;
   const currentMileage = mileageFilter.value;
@@ -79,33 +78,30 @@ if (cars.length === 0) {
   }
 
   if (currentMileage !== "all") {
-  cars = cars.filter(function (car) {
-    const carMileage = Number(car.mileage);
+    cars = cars.filter(function (car) {
+      const carMileage = Number(car.mileage);
 
-    if (currentMileage === "0-50000") {
-      return carMileage <= 50000;
-    }
+      switch (currentMileage) {
+        case "0-50000":
+          return carMileage <= 50000;
 
-    if (currentMileage === "50001-100000") {
-      return carMileage >= 50001 && carMileage <= 100000;
-    }
+        case "50001-100000":
+          return carMileage >= 50001 && carMileage <= 100000;
 
-    if (currentMileage === "100001-150000") {
-      return carMileage >= 100001 && carMileage <= 150000;
-    }
+        case "100001-150000":
+          return carMileage >= 100001 && carMileage <= 150000;
 
-    if (currentMileage === "150001-200000") {
-      return carMileage >= 150001 && carMileage <= 200000;
-    }
+        case "150001-200000":
+          return carMileage >= 150001 && carMileage <= 200000;
 
-    if (currentMileage === "200001-plus") {
-      return carMileage >= 200001;
-    }
-  });
-  
-}
+        case "200001-plus":
+          return carMileage >= 200001;
 
-
+        default:
+          return true;
+      }
+    });
+  }
 
   carList.innerHTML = "";
 
@@ -124,39 +120,36 @@ if (cars.length === 0) {
     carList.appendChild(newItem);
 
     deleteButton.addEventListener("click", function () {
-  let cars = JSON.parse(localStorage.getItem("cars")) || [];
+      let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
-  cars = cars.filter(function (savedCar) {
-    return savedCar.id !== car.id;
+      cars = cars.filter(function (savedCar) {
+        return savedCar.id !== car.id;
+      });
+
+      localStorage.setItem("cars", JSON.stringify(cars));
+
+      displayData();
+    });
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edytuj";
+    editButton.classList.add("edit-button");
+
+    newItem.appendChild(editButton);
+
+    editButton.addEventListener("click", function () {
+      addCarButton.textContent = "Zapisz zmiany!";
+
+      brand.value = car.brand;
+      model.value = car.model;
+      year.value = car.year;
+      mileage.value = car.mileage;
+      price.value = car.price;
+      editedCarId = car.id;
+
+      form.scrollIntoView({ behavior: "smooth" });
+    });
   });
-
-  localStorage.setItem("cars", JSON.stringify(cars));
-
-  displayData();
-});
-const editButton = document.createElement("button");
-editButton.textContent = "Edytuj"; 
-editButton.classList.add("edit-button");
-
- newItem.appendChild(editButton); 
- 
- editButton.addEventListener("click", function(){ 
-
-addCarButton.textContent = "Zapisz zmiany!"
-
-  brand.value = car.brand; 
-  model.value = car.model; 
-  year.value = car.year; 
-  mileage.value = car.mileage; 
-  price.value = car.price;
-  editedCarId = car.id;
-
-  form.scrollIntoView({ behavior: "smooth"
-})
-});
-});
-
-}
+};
 
 addCarButton.addEventListener("click", function () {
   if (
@@ -181,24 +174,21 @@ addCarButton.addEventListener("click", function () {
 
   let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
-const index = cars.findIndex(function (car) {
-  return car.id === editedCarId;
-});
-  
-  if (editedCarId === null) {
-  cars.push(newCar);
-} else {
-  if (index !== -1) {
-    newCar.id = editedCarId;
-    cars[index] = newCar;
-    carListSection.scrollIntoView({ behavior: "smooth" });
-  
+  const index = cars.findIndex(function (car) {
+    return car.id === editedCarId;
+  });
+
+  if (!editedCarId) {
+    cars.push(newCar);
+  } else {
+    if (index !== -1) {
+      newCar.id = editedCarId;
+      cars[index] = newCar;
+      carListSection.scrollIntoView({ behavior: "smooth" });
+    }
+    addCarButton.textContent = "Dodaj samochód";
+    editedCarId = null;
   }
-  addCarButton.textContent = "Dodaj samochód";
-  editedCarId = null;
-
-
-}
 
   localStorage.setItem("cars", JSON.stringify(cars));
 
@@ -244,4 +234,3 @@ resetFiltersButton.addEventListener("click", function () {
 });
 
 displayData();
-
