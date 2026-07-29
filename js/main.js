@@ -38,6 +38,37 @@ if (cars.length === 0) {
   averagePrice.textContent = `Średnia cena wszystkich samochodów: ${averagePriceValue.toFixed()} zł`;
 }
 
+let mostExpensive = cars[0]
+cars.forEach(function (car){
+if (Number(car.price) > Number(mostExpensive.price)){
+
+mostExpensive = car
+}
+})
+mostExpensiveCar.textContent = `Najdroższy samochód: ${mostExpensive.price} zł`;
+
+let cheapest = cars[0]
+cars.forEach(function (car){
+if (Number(car.price) < Number(cheapest.price)){
+
+cheapest = car
+}
+})
+cheapestCar.textContent = `Najtańszy samochód: ${cheapest.price} zł`;
+
+let sumMileage = 0;
+
+cars.forEach(function (car) {
+  sumMileage += Number(car.mileage);
+});
+
+if (cars.length === 0) {
+  averageMileage.textContent = "Brak samochodów w garażu";
+} else {
+  const averageMileageValue = sumMileage / cars.length;
+
+  averageMileage.textContent = `Średni przebieg wszystkich samochodów: ${averageMileageValue.toFixed()} km`;
+}
 
   const currentBrand = brandFilter.value;
   const currentMileage = mileageFilter.value;
